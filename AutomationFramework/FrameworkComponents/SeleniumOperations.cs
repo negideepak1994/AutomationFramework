@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -216,7 +217,7 @@ namespace AutomationFramework.FrameworkComponents
         static string edgeChromiumDriver = "msedgedriver";
         static string edgeChromiumName = "msedge";
 
-        public static IWebDriver OpenBrowser(string broswerType, string URL, bool isMaximised, UnhandledPromptBehavior promptBehavior, int timeOutInSeconds, bool isHeadlessBrowser = false)
+        public static IWebDriver OpenBrowser(string broswerType, string URL, bool isMaximised, UnhandledPromptBehavior promptBehavior, int timeoutInSeconds, bool isHeadlessBrowser = false)
         {
             try
             {
@@ -298,6 +299,123 @@ namespace AutomationFramework.FrameworkComponents
                 throw ex;
             }
         }
+
+        public static void NavigateToUrl(string URL, string userName = "", string password = "")
+        {
+            string urlToNavigate = URL;
+            string elapsedTime = string.Empty;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            try
+            {
+                webDriver.Navigate().GoToUrl(urlToNavigate);
+                //here waitTillpageload method will come
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Selenium's GoToUrl method failed for URL navigation:" + urlToNavigate + "with exceptiom" + ex.Message);
+            }
+            if (stopwatch.IsRunning)
+            {
+                stopwatch.Stop();
+                elapsedTime = stopwatch.Elapsed.ToString();
+            }
+        }
+
+        public static void WaitTillPageLoad(int timeoutInSeconds)
+        {
+            if (timeoutInSeconds == 0)
+            {
+                return;
+            }
+            bool isPageLoadedCompletely = false;
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+
+            //Below loop will rotate for "timeoutInSeconds" to check if the page is ready after every 1 seconds
+
+            for (int i = 0; i < timeoutInSeconds; i++)
+            {
+                SeleniumOperations.Wait(1000);
+                try
+                {
+                    //To check if the page is in ready state
+                    if (js.ExecuteScript("return document.readyState").ToString().Equals("complete").)
+                    {
+                        isPageLoadedCompletely = true;
+                        break;
+                    }
+                }
+                catch //do nothing
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void Wait(int timeoutInMilliSeconds)
+        {
+            Thread.Sleep(timeoutInMilliSeconds);
+        }
+
+        public static void ScrollToElementUsingJS(IWebElement element)
+        {
+            try
+            {
+                ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Element is not Visible in Scroll");
+            }
+        }
+
+        public static void MoveToWebElemet()
+        {
+            try
+            {
+                ScrollToElementUsingJS(webElement);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Move Mouse to webelement failed for object name: " + globalObjectName + "Exception Details: " + ex.Message);
+            }
+        }
+
+        public static void MoveToWebElementAndClick()
+        {
+            try
+            {
+                Actions action = new Actions(webDriver);
+
+                action.MoveToElement(webElement).Click().Build().Perform();
+            }
+            catch (Exception)
+            {
+                //do nothing
+            }
+        }
+
+        public static string RefreshPage()
+        {
+            string currentUrl = string.Empty;
+            try
+            {
+                currentUrl = webDriver.Url;
+                webDriver.Navigate().Refresh();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return currentUrl;
+        }
+
 
         #endregion
     }
