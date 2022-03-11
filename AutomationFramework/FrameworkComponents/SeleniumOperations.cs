@@ -416,6 +416,15 @@ namespace AutomationFramework.FrameworkComponents
             return currentUrl;
         }
 
+        public static void ReleaseWebDriver()
+        {
+            if (webDriver != null)
+            {
+                SeleniumOperations.webDriver.Quit();
+                SeleniumOperations.webDriver.Dispose();
+                SeleniumOperations.webDriver = null;
+            }
+        }
 
         #endregion
     }
