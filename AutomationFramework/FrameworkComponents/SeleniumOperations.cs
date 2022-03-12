@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Edge;
@@ -48,6 +49,7 @@ namespace AutomationFramework.FrameworkComponents
         public static string globalObjectName { get; set; }
         public static string globalObjectValue { get; set; }
         public static int seleniumBrowserProcessID { get; set; }
+        public static string currentHandle { get; set; }
         #endregion
 
         #region Static Selenium Variables
@@ -61,18 +63,7 @@ namespace AutomationFramework.FrameworkComponents
          */
 
         //Need to Add these Minimum Methods for Functioning of a Simple Loggin In Script
-        // Broswer Opening Method
-        // NavigateToUrl Method
-        //Switch to Window
-        //Switch to Frame
-        //Scroll to WebElement usinh JS
-        //Find Dropdown
-        //Select Value from Dropdown using JS
-        //Upload File to Edge
-        //Download File from Edge
         //Switch To Alert
-        // Refresh Page
-        //Verify Page Title
         public static void FindElement(By objectName, int timeoutInSeconds, bool verifyClickable = false, bool isFrame = false, string[] oldChars = null, string[] newChars = null, bool isMoveToWebElement = true)
         {
             Stopwatch globalWatch = new Stopwatch();
@@ -202,6 +193,132 @@ namespace AutomationFramework.FrameworkComponents
                 throw new Exception("Issue while getting element with property : " + by + ". Exception details: " + exp.Message + "Inner Exception: " + exp.InnerException);
         }
 
+        public static void FindElements(By objectName, int timeoutInSeconds, bool verifyClickable = false, bool isFrame = false, string[] oldChars = null, string[] newChars = null, bool isMoveToWebElement = true)
+        {
+            Stopwatch globalWatch = new Stopwatch();
+
+            try
+            {
+                globalObjectName_POM = objectName;
+                globalObjectName = objectName.Criteria;
+                webElement = null;
+
+                if (objectName == null)
+                {
+                    throw new Exception("Object Name: " + globalObjectName.ToString() + "NOT found in object Repository");
+                }
+                if (oldChars != null && newChars != null)
+                {
+                    globalObjectValue = globalObjectName_POM.Criteria.ToString();
+                    for (int i = 0; i < oldChars.Count(); i++)
+                    {
+                        if (!string.IsNullOrEmpty(oldChars[i]))
+                        {
+                            globalObjectValue = globalObjectValue.Replace(oldChars[i], newChars[i]);
+                        }
+                    }
+
+                    string property = globalObjectName_POM.Mechanism;
+                    if (property == Locator.ID.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.Id(globalObjectValue);
+                    }
+                    else if (property == Locator.Name.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.Name(globalObjectValue);
+                    }
+                    else if (property == Locator.XPath.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.XPath(globalObjectValue);
+                    }
+                    else if (property == Locator.ClassName.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.ClassName(globalObjectValue);
+                    }
+                    else if (property == Locator.TagName.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.TagName(globalObjectValue);
+                    }
+                    else if (property == Locator.LinkText.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.LinkText(globalObjectValue);
+                    }
+                    else if (property == Locator.PartialLinkText.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.PartialLinkText(globalObjectValue);
+                    }
+                    else if (property == Locator.CssSelector.ToString().ToLower())
+                    {
+                        globalObjectName_POM = By.CssSelector(globalObjectValue);
+                    }
+                }
+
+                RetrieveWebElements(globalObjectName_POM, timeoutInSeconds, verifyClickable, isFrame, isMoveToWebElement);
+
+                if (webElement == null && !isFrame)
+                {
+                    throw new Exception("Element:" + globalObjectName_POM + "NOT found at Url: " + SeleniumOperations.webDriver.Url);
+                }
+            }
+            catch (Exception ex)
+            {
+                //To Add Logging Method
+                throw new Exception("Element:" + globalObjectName_POM + "NOT found at URL: " + SeleniumOperations.webDriver.Url + "Exception Details: " + ex.Message);
+            }
+        }
+
+        public static void RetrieveWebElements(By by, int timeoutInSeconds, bool isVerifyVisibility)
+        {
+            Exception exp = new Exception();
+            bool isElementFound = false;
+            SeleniumOperations.webElements = null;
+
+            if (timeoutInSeconds > 0)
+            {
+                Stopwatch elementSearch_TimeElapsed = new Stopwatch();
+                elementSearch_TimeElapsed.Start();
+
+                while (!isElementFound && timeoutInSeconds > Convert.ToInt32(elementSearch_TimeElapsed.Elapsed.TotalSeconds))
+                {
+                    WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(1));
+                    try
+                    {
+                        if (isVerifyVisibility)
+                        {
+                            webElements = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+                        }
+                        else
+                        {
+                            webElements = wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
+                        }
+                        if (webElements != null && webElements.Count != 0)
+                        {
+                            isElementFound = true;
+
+                        }
+
+                        //Need to add WriteLog Method
+                    }
+                    catch (Exception ex)
+                    {
+                        exp = ex;
+                    }
+                }
+                if (elementSearch_TimeElapsed.IsRunning) ;
+                elementSearch_TimeElapsed.Stop();
+            }
+            else
+            {
+                webElements = webDriver.FindElements(by);
+                //Add - MoveToWebElement method
+
+                isElementFound = true;
+
+            }
+            if (!isElementFound)
+                throw new Exception("Issue while getting elements with property : " + by + ". Exception details: " + exp.Message + "Inner Exception: " + exp.InnerException);
+        }
+
         ///<Summary>
         ///This method is used to Open browser. Used Internally by BaseTest class Constructor
         /// </Summary>
@@ -262,7 +379,7 @@ namespace AutomationFramework.FrameworkComponents
                     perfLogPrefs.IsCollectingNetworkEvents = true;
                     perfLogPrefs.AddTracingCategories(new string[] { "devtools.network" });
                     options.PerformanceLoggingPreferences = perfLogPrefs;
-                    options.SetLoggingPreference("performance",LogLevel.All);
+                    options.SetLoggingPreference("performance", LogLevel.All);
 
                     options.UnhandledPromptBehavior = promptBehavior;
                     options.PageLoadStrategy = PageLoadStrategy.Normal;
@@ -271,13 +388,13 @@ namespace AutomationFramework.FrameworkComponents
 
                     //main code for opening browser with these different options
 
-                    webDriver = new EdgeDriver(@"..\..\Drivers",options);
+                    webDriver = new EdgeDriver(@"..\..\Drivers", options);
                     webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                     webDriver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(10);
                     Thread.Sleep(5000);
                     IEnumerable<int> pidsAfter = Process.GetProcessesByName("chrome").Select(p => p.Id);
                     seleniumBrowserProcessIds.Clear();
-                    seleniumBrowserProcessIds=pidsAfter.Except(pidsBefore).ToList();
+                    seleniumBrowserProcessIds = pidsAfter.Except(pidsBefore).ToList();
                     seleniumBrowserProcessID = pidsAfter.Except(pidsBefore).FirstOrDefault();
                 }
                 else
@@ -424,6 +541,110 @@ namespace AutomationFramework.FrameworkComponents
                 SeleniumOperations.webDriver.Dispose();
                 SeleniumOperations.webDriver = null;
             }
+        }
+
+        public static void ValidateAttributeValue(string attribute, string expectedValue)
+        {
+            string actualAttributeValue = "";
+            try
+            {
+                actualAttributeValue = SeleniumOperations.webElement.GetAttribute(attribute);
+                Assert.AreEqual(expectedValue, actualAttributeValue);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        // This below function switches to the last open window
+        // This function returns current window handle to be stored for future references.
+
+        public static string SwitchToNewBrowserWindow(bool waitTillNewWindowLoad = true, List<string> oldWindowHandles = null)
+        {
+            try
+            {
+                int windowLoadTimeoutInSecoonds = 300;
+                //pass current handle to another member to shift back later
+
+                currentHandle = webDriver.CurrentWindowHandle;
+                string newHandle = webDriver.WindowHandles.Last();
+
+                if (oldWindowHandles != null)
+                {
+                    newHandle = webDriver.WindowHandles.Except(oldWindowHandles).FirstOrDefault();
+                    if (newHandle == null)
+                    {
+                        newHandle = webDriver.WindowHandles.Last();
+                    }
+                }
+                //wait until window is loaded
+                WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(windowLoadTimeoutInSecoonds));
+                //main code
+                wait.Until(drv => drv.SwitchTo().Window(newHandle));
+
+                if (waitTillNewWindowLoad)
+                {
+                    WaitTillPageLoad(timeoutInSeconds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Occured while switching to new Window. Error Details: " + ex.Message);
+            }
+            return currentHandle;
+        }
+
+        public static bool verifyElementVisibility(By objectname, int timeoutInSeconds, bool isVerifyClickable = false, bool isFrame = false, string[] oldChars = null, string[] newChars = null, bool isMoveToWebElement = true)
+        {
+            try
+            {
+                FindElement(objectname, timeoutInSeconds, isVerifyClickable, isFrame, oldChars, newChars, isMoveToWebElement);
+                if (SeleniumOperations.webElement.Displayed)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static string SwitchToAlert(bool acceptAlert, int timeoutInSeconds)
+        {
+            string text = null;
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(timeoutInSeconds));
+                IAlert alert = wait.Until(ExpectedConditions.AlertIsPresent());
+
+                if (alert != null)
+                {
+                    alert = SeleniumOperations.webDriver.SwitchTo().Alert();
+                    text = alert.Text;
+
+                    if (acceptAlert)
+                        alert.Accept();
+                    else
+                    {
+                        alert.Dismiss();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("System is not able to switch to alert");
+            }
+            return text;
+
         }
 
         #endregion
