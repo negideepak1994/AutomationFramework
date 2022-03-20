@@ -267,7 +267,7 @@ namespace AutomationFramework.FrameworkComponents
             }
         }
 
-        public static void RetrieveWebElements(By by, int timeoutInSeconds, bool isVerifyVisibility)
+        public static void RetrieveWebElements(By by, int timeoutInSeconds, bool isVerifyVisibility, bool isFrame = false, bool isMoveToWebElement = true)
         {
             Exception exp = new Exception();
             bool isElementFound = false;
@@ -459,7 +459,7 @@ namespace AutomationFramework.FrameworkComponents
                 try
                 {
                     //To check if the page is in ready state
-                    if (js.ExecuteScript("return document.readyState").ToString().Equals("complete").)
+                    if (js.ExecuteScript("return document.readyState").ToString().Equals("complete"))
                     {
                         isPageLoadedCompletely = true;
                         break;

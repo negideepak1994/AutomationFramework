@@ -1,0 +1,21 @@
+API Flow used in our sharepoint Project
+
+@ On very first level we will Create a Page for API for example -  API Models ( where in we will define our Input Request and Response classes )
+
+we will use quicktype.io to convert the json type into C# class types.
+
+
+--> We will Read the API Header and Body Details from the CSV file ( ie Read Csv method will be automatically used)
+--> And then we will assign the inputs reads from the csv file to the Class Object of Input Request class
+
+--> Serialize input JSON request ---as String ( string InputJSONRequest - which is a serialized input data string)
+
+--> Send the request(string InputJSONRequest) to HttpWebResponse method and get the HttpWebResponse Response 
+
+
+--> convert the HttpWebResponse into String by Parse this Response(JSON Response) as String to get the ResponseString
+
+
+Now Finally Parse the above responseString to Class Model Object [MO] ( so that we can use this response object to validate them Individually)
+
+This will desearialize the JSON to the specefic .NET type

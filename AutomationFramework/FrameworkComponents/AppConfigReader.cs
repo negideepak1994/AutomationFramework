@@ -18,6 +18,7 @@ namespace AutomationFramework.FrameworkComponents
         private static string browserName;
         private static string username;
         private static string password;
+        public static string environmentXMLPath;
 
 
         //constructor of AppConfigReader class
@@ -31,17 +32,19 @@ namespace AutomationFramework.FrameworkComponents
             browserName = testContext.Properties["BrowserName"].ToString();
             username = testContext.Properties["Username"].ToString();
             password = testContext.Properties["Password"].ToString();
+            environmentXMLPath = testContext.Properties["EnvironmentXMLPath"].ToString();
         }
 
         #region Read inputs from App.Config 
 
         public static string SendEmail { get; set; }
-        public static string CaptureScreenshot { get; set;}
-        public static string Take_Common_Test_Data_From_Local_File { get;  set; }
+        public static string CaptureScreenshot { get; set; }
+        public static string Take_Common_Test_Data_From_Local_File { get; set; }
         public static string Common_Test_Data_Row { get; set; }
         public static string BrowserName { get; set; }
         public static string UserName { get; set; }
         public static string Password { get; set; }
+        public static string EnvironmentXMLPath { get; set; }
         #endregion
     }
 }

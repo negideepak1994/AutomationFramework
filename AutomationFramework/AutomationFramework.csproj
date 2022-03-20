@@ -9,13 +9,11 @@
 
   <ItemGroup>
     <Folder Include="Drivers\" />
-    <Folder Include="EnvironmentXml\" />
     <Folder Include="InputCSV\" />
     <Folder Include="Reporter\" />
     <Folder Include="TestScripts\API_Models\" />
     <Folder Include="TestScripts\Application_Pages\API\" />
     <Folder Include="TestScripts\Application_Pages\UI\" />
-    <Folder Include="TestScripts\Constants\" />
     <Folder Include="TestScripts\Test_Methods\" />
     <Folder Include="TestScripts\runSettings_Configuration\" />
   </ItemGroup>
