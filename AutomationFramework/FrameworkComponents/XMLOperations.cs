@@ -16,7 +16,7 @@ namespace AutomationFramework.FrameworkComponents
 
         // Below function is used to Read XML File
 
-        public static Dictionary<string, string> ReadInputXML(string filepath, string valueToFind = null, string CommonTagName)
+        public static Dictionary<string, string> ReadInputXML(string filepath, string CommonTagName, string valueToFind = null)
         {
             string value = valueToFind;
 

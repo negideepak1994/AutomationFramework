@@ -24,7 +24,7 @@ namespace AutomationFramework.FrameworkComponents
             string expectedResult = "API call to Endpoint:" + apiURL + "should be successful";
             string actualResult = "API call to Endpoint:" + apiURL + "is successful";
 
-            ErrorHandler(() =>
+            Errorhandler(()=>
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiURL);
                 request.Timeout = reqTimeOut * 1000;
@@ -40,7 +40,7 @@ namespace AutomationFramework.FrameworkComponents
                 #region Adding additional Headers
                 if (headers_KVP != null)
                 {
-                    foreach (KeyValuePair<string, string> key in headers_KVP.Keys)
+                    foreach (string key in headers_KVP.Keys)
                     {
                         request.Headers.Add(key, headers_KVP[key]);
                     }

@@ -6,9 +6,10 @@ we will use quicktype.io to convert the json type into C# class types.
 
 
 --> We will Read the API Header and Body Details from the CSV file ( ie Read Csv method will be automatically used)
+
 --> And then we will assign the inputs reads from the csv file to the Class Object of Input Request class
 
---> Serialize input JSON request ---as String ( string InputJSONRequest - which is a serialized input data string)
+--> Serialize input JSON request ---as String ( string InputJSONRequest - which is a serialized input data string===which we will send as req)
 
 --> Send the request(string InputJSONRequest) to HttpWebResponse method and get the HttpWebResponse Response 
 

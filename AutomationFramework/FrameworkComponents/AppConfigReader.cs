@@ -42,7 +42,7 @@ namespace AutomationFramework.FrameworkComponents
         public static string Take_Common_Test_Data_From_Local_File { get; set; }
         public static string Common_Test_Data_Row { get; set; }
         public static string BrowserName { get; set; }
-        public static string UserName { get; set; }
+        public static string Username { get; set; }
         public static string Password { get; set; }
         public static string EnvironmentXMLPath { get; set; }
         #endregion
