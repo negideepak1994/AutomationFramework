@@ -11,9 +11,9 @@ namespace AutomationFramework.FrameworkComponents
     public class Driver_Hooks
     {
 
-        public static void ClassInitialize(TestContext testContextInstance)
+        public static void ClassInitialize(TestContext testContext)
         {
-            new AppConfigReader(testContextInstance);
+            new AppConfigReader(testContext);
             XMLOperations.GetEnvironmentXMLData();
         }
         public static void TestInitialize(bool isHeadlessBrowser = false, string browserToBeUsed = null)
@@ -23,12 +23,12 @@ namespace AutomationFramework.FrameworkComponents
 
                 //reading URL, username & password from environment.xml
                 string URL = XMLOperations.GetInputValueByKey(XMLOperations.EnvXMLCollection, "URL");
-                string username = AppConfigReader.Username;
-                string password = AppConfigReader.Password;
+                string username = AppConfigReader.username;
+                string password = AppConfigReader.password;
 
                 if (browserToBeUsed != null)
                 {
-                     browserToBeUsed = AppConfigReader.BrowserName.ToLower();
+                     browserToBeUsed = AppConfigReader.browserName.ToLower();
                 }
 
                 SeleniumOperations.webDriver = SeleniumOperations.OpenBrowser(browserToBeUsed, URL, true, OpenQA.Selenium.UnhandledPromptBehavior.Dismiss, SeleniumOperations.timeoutInSeconds, isHeadlessBrowser);

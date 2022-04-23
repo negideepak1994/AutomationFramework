@@ -18,5 +18,9 @@ namespace AutomationFramework.TestScripts.Constants
         {
             public const string DownloadFileLocation = "DocumentToDownload";
         }
+        public class FlipkartApplication
+        {
+            public const string FlipkartURL = "FlipkartURL";
+        }
     }
 }

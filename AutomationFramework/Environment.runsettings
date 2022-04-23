@@ -3,20 +3,19 @@
 	<RunConfiguration>
 		<DisableParallelization>true</DisableParallelization>
 	</RunConfiguration>
-	
+
 	<!--parameters used by tests at runtime-->
 	<TestRunParameters>
 		<!--Send Email value should be true if user wants to send email post execution-->
 		<Parameter name ="SendEmail" value="false" />
 		<Parameter name="CaptureScreenshot" value="false" />
-		<Parameter name="Take_Common_Data_From_Local_File" value="true"/>
+		<Parameter name="Take_Common_Data_From_Local_File" value="false"/>
 		<Parameter name="Common_Test_Data_Row" value="1"/>
 		<Parameter name="BrowserName" value="Edge"/>
 		<Parameter name ="Username" value="negideepak1994@gmail.com"/>
-		<parameter name="Password" value="qwertyuio@123"/>
-		<parameter name="EnvironmentXMLPath" value="../EnvironmentXml/Environment.xml" />
-		
+		<Parameter name="Password" value="qwertyuio@123"/>
+		<Parameter name="EnvironmentXMLPath" value="../EnvironmentXml/Environment.xml" />
 		<!--API specefic parameters-->
 	</TestRunParameters>
-	
+
 </RunSettings>

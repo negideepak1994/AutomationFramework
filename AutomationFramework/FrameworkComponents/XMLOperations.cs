@@ -84,7 +84,7 @@ namespace AutomationFramework.FrameworkComponents
             try
             {
                 EnvXMLCollection = new Dictionary<string, string>();
-                EnvXMLCollection = ReadInputXML(AppConfigReader.EnvironmentXMLPath,null, "Environment");
+                EnvXMLCollection = ReadInputXML(AppConfigReader.environmentXMLPath,null, "Environment");
                 if (EnvXMLCollection == null)
                 {
                     throw new Exception("Not able to read Environment XML");

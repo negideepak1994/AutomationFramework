@@ -2,7 +2,7 @@
 
 <Environment>
 	<Name>Testing</Name>
-	<!--<URL>https:www.google.com</URL>-->
+	<FlipkartURL>https:www.flipkart.com</FlipkartURL>
 	<DocumentsToUpload>../../DocumentsToUpload</DocumentsToUpload>
 	<DocumentToDownload>../../DocumentsToDownload</DocumentToDownload>
 	

@@ -25,7 +25,7 @@ namespace AutomationFramework.FrameworkComponents
 
         public static bool IsChromeBrowserUsed()
         {
-            if (AppConfigReader.BrowserName.ToUpper() == BrowserType.CHROME)
+            if (AppConfigReader.browserName.ToUpper() == BrowserType.CHROME)
             {
                 return true;
             }
@@ -37,7 +37,7 @@ namespace AutomationFramework.FrameworkComponents
 
         public static bool IsEdgeBrowserUsed()
         {
-            if (AppConfigReader.BrowserName.ToUpper() == BrowserType.EDGE)
+            if (AppConfigReader.browserName.ToUpper() == BrowserType.EDGE)
             {
                 return true;
             }
@@ -49,7 +49,7 @@ namespace AutomationFramework.FrameworkComponents
 
         public static bool IsFireFoxBrowserUsed()
         {
-            if (AppConfigReader.BrowserName.ToUpper() == BrowserType.FIREFOX)
+            if (AppConfigReader.browserName.ToUpper() == BrowserType.FIREFOX)
             {
                 return true;
             }
