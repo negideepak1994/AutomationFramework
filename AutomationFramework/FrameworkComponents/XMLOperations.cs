@@ -21,7 +21,7 @@ namespace AutomationFramework.FrameworkComponents
             string value = valueToFind;
 
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(filepath);
+            xmlDoc.Load(filepath);
             XmlNodeList nodeList = xmlDoc.GetElementsByTagName(CommonTagName);
             foreach (XmlNode node in nodeList)
             {
@@ -84,7 +84,7 @@ namespace AutomationFramework.FrameworkComponents
             try
             {
                 EnvXMLCollection = new Dictionary<string, string>();
-                EnvXMLCollection = ReadInputXML(AppConfigReader.environmentXMLPath,null, "Environment");
+                EnvXMLCollection = ReadInputXML(AppConfigReader.environmentXMLPath, "Flipkart", "FlipkartTesting");
                 if (EnvXMLCollection == null)
                 {
                     throw new Exception("Not able to read Environment XML");

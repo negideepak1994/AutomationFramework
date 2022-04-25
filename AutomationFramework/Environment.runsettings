@@ -14,7 +14,7 @@
 		<Parameter name="BrowserName" value="Edge"/>
 		<Parameter name ="Username" value="negideepak1994@gmail.com"/>
 		<Parameter name="Password" value="qwertyuio@123"/>
-		<Parameter name="EnvironmentXMLPath" value="../EnvironmentXml/Environment.xml" />
+		<Parameter name="EnvironmentXMLPath" value="../../EnvironmentXml/Environment.xml" />
 		<!--API specefic parameters-->
 	</TestRunParameters>
 

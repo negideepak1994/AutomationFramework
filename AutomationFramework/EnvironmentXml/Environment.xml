@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
-<Environment>
-	<Name>Testing</Name>
-	<FlipkartURL>https:www.flipkart.com</FlipkartURL>
-	<DocumentsToUpload>../../DocumentsToUpload</DocumentsToUpload>
-	<DocumentToDownload>../../DocumentsToDownload</DocumentToDownload>
-	
-</Environment>
+<Environments>
+	<Flipkart>
+		<Name>FlipkartTesting</Name>
+		<FlipkartURL>https://www.flipkart.com</FlipkartURL>
+		<DocumentsToUpload>../../DocumentsToUpload</DocumentsToUpload>
+		<DocumentToDownload>../../DocumentsToDownload</DocumentToDownload>
+	</Flipkart>
+</Environments>
